@@ -1,9 +1,12 @@
 package com.bridgelabz.employeepayroll.controller;
 
+import com.bridgelabz.employeepayroll.dto.EmployeeDTO;
+import com.bridgelabz.employeepayroll.dto.ResponseDTO;
 import com.bridgelabz.employeepayroll.model.Employee;
 import com.bridgelabz.employeepayroll.repository.EmployeeRepository;
 import com.bridgelabz.employeepayroll.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,27 +30,23 @@ public class EmployeeController {
     }
 
     @PostMapping("/addEmployee")
-    public Employee addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Employee> addEmployee(@RequestBody EmployeeDTO employee){
         return service.addEmployee(employee);
     }
 
     @GetMapping("/getEmployee/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         return service.getEmployeeById(id);
     }
 
     @PutMapping("/updateEmployee/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+    public ResponseEntity<ResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
         return service.updateEmployee(id, employee);
     }
 
     @DeleteMapping("/deleteEmployee/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        Employee emp = service.getEmployeeById(id);
-        if(emp != null) {
-            service.deleteEmployee(id);
-            System.out.println("Employee with ID " + id + " deleted successfully.");
-        }
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+        return service.deleteEmployee(id);
     }
 
 }

@@ -1,19 +1,22 @@
 package com.bridgelabz.employeepayroll.service;
 
+import com.bridgelabz.employeepayroll.dto.EmployeeDTO;
+import com.bridgelabz.employeepayroll.dto.ResponseDTO;
 import com.bridgelabz.employeepayroll.model.Employee;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface EmployeeService {
 
-    abstract Employee addEmployee(Employee employee);
+    abstract ResponseEntity<Employee> addEmployee(EmployeeDTO employee);
 
     abstract List<Employee> getAllEmployees();
 
-    abstract Employee getEmployeeById(Long id);
+    abstract ResponseEntity<Employee> getEmployeeById(Long id);
 
-    abstract Employee updateEmployee(Long id, Employee employee);
+    abstract ResponseEntity<ResponseDTO> updateEmployee(Long id, EmployeeDTO employee);
 
-    abstract void deleteEmployee(Long id);
+    abstract ResponseEntity<String> deleteEmployee(Long id);
 
 }
