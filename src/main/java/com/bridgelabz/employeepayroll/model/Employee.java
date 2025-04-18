@@ -4,9 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
+
+import java.time.LocalDate;
 
 @Entity
-public class Employee {
+public @Data class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,38 +17,17 @@ public class Employee {
 
     private String name;
     private double salary;
+    private String gender;
+    private LocalDate startDate;
 
     public Employee() {
     }
 
-    public Employee(Long employeeId, String name, double salary) {
+    public Employee(Long employeeId, String name, double salary,String gender, LocalDate startDate) {
         this.employeeId = employeeId;
         this.name = name;
         this.salary = salary;
-    }
-
-    public Long getId() {
-        return employeeId;
-    }
-
-    public void setId(Long id) {
-        this.employeeId = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String setName(String name) {
-        this.name = name;
-        return name;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
+        this.gender = gender;
+        this.startDate = startDate;
     }
 }

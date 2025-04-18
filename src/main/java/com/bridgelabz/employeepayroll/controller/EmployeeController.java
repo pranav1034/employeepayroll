@@ -5,15 +5,19 @@ import com.bridgelabz.employeepayroll.dto.ResponseDTO;
 import com.bridgelabz.employeepayroll.model.Employee;
 import com.bridgelabz.employeepayroll.repository.EmployeeRepository;
 import com.bridgelabz.employeepayroll.service.EmployeeService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
+@Validated
 public class EmployeeController {
 
     @Autowired
@@ -30,7 +34,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/addEmployee")
-    public ResponseEntity<Employee> addEmployee(@RequestBody EmployeeDTO employee){
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody EmployeeDTO employee){
         return service.addEmployee(employee);
     }
 
@@ -40,7 +44,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/updateEmployee/{id}")
-    public ResponseEntity<ResponseDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employee) {
+    public ResponseEntity<ResponseDTO> updateEmployee(@Valid @PathVariable Long id, @RequestBody EmployeeDTO employee) {
         return service.updateEmployee(id, employee);
     }
 
