@@ -1,9 +1,6 @@
 package com.bridgelabz.employeepayroll.service;
 
-import com.bridgelabz.employeepayroll.dto.RegisterDTO;
-import com.bridgelabz.employeepayroll.dto.ResetPasswordDTO;
-import com.bridgelabz.employeepayroll.dto.ResponseDTO;
-import com.bridgelabz.employeepayroll.dto.UpdatePasswordDTO;
+import com.bridgelabz.employeepayroll.dto.*;
 import com.bridgelabz.employeepayroll.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +19,14 @@ public interface UserService {
     public ResponseEntity<String> deleteUser(@PathVariable Long id);
 
     public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request);
+
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request);
+
+    public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ResetPasswordDTO request);
+
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO request);
+
+    public ResponseEntity<ResponseDTO> registerUser(@RequestBody RegisterDTO request);
 
 
 }

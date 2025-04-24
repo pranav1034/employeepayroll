@@ -54,4 +54,24 @@ public class UserController {
     public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request) {
         return service.updatePassword(request);
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<ResponseDTO> registerUser(@RequestBody RegisterDTO request){
+        return service.registerUser(request);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO request){
+        return service.loginUser(request);
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request) {
+        return service.forgotPassword(request);
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ResetPasswordDTO request){
+        return service.resetPassword(request);
+    }
 }
