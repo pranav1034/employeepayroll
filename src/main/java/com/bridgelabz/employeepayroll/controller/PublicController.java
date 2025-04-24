@@ -1,8 +1,7 @@
 package com.bridgelabz.employeepayroll.controller;
 
-import com.bridgelabz.employeepayroll.dto.LoginDTO;
-import com.bridgelabz.employeepayroll.dto.RegisterDTO;
-import com.bridgelabz.employeepayroll.dto.ResponseDTO;
+import com.bridgelabz.employeepayroll.dto.*;
+//import com.bridgelabz.employeepayroll.model.PasswordReset;
 import com.bridgelabz.employeepayroll.model.User;
 import com.bridgelabz.employeepayroll.repository.UserRepository;
 import com.bridgelabz.employeepayroll.service.MailService;
@@ -54,7 +53,7 @@ public class PublicController {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        mailService.sendMail(request.getEmail());
+        mailService.sendMail(request.getEmail(), "Registration Successful", "Welcome to the Employee Payroll System!");
 
         ResponseDTO response = new ResponseDTO("User registered successfully", HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -76,6 +75,43 @@ public class PublicController {
         final String token = jwtUtility.generateToken(userDetails.getUsername());
 
         ResponseDTO response = new ResponseDTO(token,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
+        if (user == null) {
+            ResponseDTO response = new ResponseDTO("User not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        String otp = String.valueOf(Math.round(Math.random() * 9000 + 1000));
+        user.setOtp(otp);
+        userRepository.save(user);
+
+        mailService.sendMail(request.getEmail(),"Password Reset OTP", "Your OTP is: " + otp);
+        ResponseDTO response = new ResponseDTO("OTP sent to your email", HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ResetPasswordDTO request){
+        User user = userRepository.findByOtp(request.getOtp()).orElse(null);
+        if (user == null) {
+            ResponseDTO response = new ResponseDTO("User not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        if (!user.getOtp().equals(request.getOtp())) {
+            ResponseDTO response = new ResponseDTO("Invalid OTP", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setOtp(null);
+        userRepository.save(user);
+
+        mailService.sendMail(user.getEmail(),"Password Reset Successful", "Your password has been reset successfully!");
+
+        ResponseDTO response = new ResponseDTO("Password reset successfully", HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

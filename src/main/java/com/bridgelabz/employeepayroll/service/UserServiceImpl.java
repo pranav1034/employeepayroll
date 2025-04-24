@@ -3,6 +3,7 @@ package com.bridgelabz.employeepayroll.service;
 import com.bridgelabz.employeepayroll.dto.LoginDTO;
 import com.bridgelabz.employeepayroll.dto.RegisterDTO;
 import com.bridgelabz.employeepayroll.dto.ResetPasswordDTO;
+import com.bridgelabz.employeepayroll.dto.UpdatePasswordDTO;
 import com.bridgelabz.employeepayroll.dto.ResponseDTO;
 import com.bridgelabz.employeepayroll.model.User;
 import com.bridgelabz.employeepayroll.repository.UserRepository;
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseDTO> updatePassword(@RequestBody ResetPasswordDTO request){
+    public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request){
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
         if (user == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

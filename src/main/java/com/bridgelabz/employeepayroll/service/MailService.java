@@ -13,11 +13,11 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendMail(String toEmail) {
+    public void sendMail(String to,String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(toEmail);
-        message.setSubject("Welcome to Employee Payroll System");
-        message.setText("Dear user, thank you for registering with us. We are glad to have you onboard.");
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
         mailSender.send(message);
         log.info("mail sent successfully");
     }

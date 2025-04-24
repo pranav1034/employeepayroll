@@ -1,9 +1,6 @@
 package com.bridgelabz.employeepayroll.controller;
 
-import com.bridgelabz.employeepayroll.dto.LoginDTO;
-import com.bridgelabz.employeepayroll.dto.RegisterDTO;
-import com.bridgelabz.employeepayroll.dto.ResetPasswordDTO;
-import com.bridgelabz.employeepayroll.dto.ResponseDTO;
+import com.bridgelabz.employeepayroll.dto.*;
 import com.bridgelabz.employeepayroll.model.User;
 import com.bridgelabz.employeepayroll.repository.UserRepository;
 import com.bridgelabz.employeepayroll.service.UserService;
@@ -54,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/updatePassword")
-    public ResponseEntity<ResponseDTO> updatePassword(@RequestBody ResetPasswordDTO request) {
+    public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request) {
         return service.updatePassword(request);
     }
 }

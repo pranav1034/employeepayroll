@@ -29,6 +29,10 @@ public class User implements UserDetails {
 
     private String token;
 
+    private String otp;
+
+    private boolean isVerified = false;
+
     @Column(nullable=true)
     private String email;
 
