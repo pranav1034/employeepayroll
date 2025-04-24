@@ -20,7 +20,7 @@ public interface UserService {
 
     public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request);
 
-    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request);
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody LoginDTO request);
 
     public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ResetPasswordDTO request);
 

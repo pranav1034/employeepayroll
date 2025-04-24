@@ -1,6 +1,7 @@
 package com.bridgelabz.employeepayroll.service;
 
 import com.bridgelabz.employeepayroll.dto.*;
+import com.bridgelabz.employeepayroll.exceptions.UserNotFoundException;
 import com.bridgelabz.employeepayroll.model.User;
 import com.bridgelabz.employeepayroll.repository.UserRepository;
 import com.bridgelabz.employeepayroll.utility.JwtUserDetailsService;
@@ -55,10 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseEntity<ResponseDTO> updateUser(@PathVariable Long id, @RequestBody RegisterDTO request) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User not found in database having id: "+id));
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -68,10 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found in database having id: "+id));
         userRepository.delete(user);
         return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
     }
@@ -115,22 +110,15 @@ public class UserServiceImpl implements UserService {
 
 
     public ResponseEntity<ResponseDTO> updatePassword(@RequestBody UpdatePasswordDTO request){
-        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
-        if (user == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()-> new UserNotFoundException("User not found in database having email: "+request.getEmail()));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         ResponseDTO response = new ResponseDTO("Password updated successfully", HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
-        if (user == null) {
-            ResponseDTO response = new ResponseDTO("User not found", HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody LoginDTO request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()-> new UserNotFoundException("User not found in database having email: "+request.getEmail()));
         String otp = String.valueOf(Math.round(Math.random() * 9000 + 1000));
         user.setOtp(otp);
         userRepository.save(user);

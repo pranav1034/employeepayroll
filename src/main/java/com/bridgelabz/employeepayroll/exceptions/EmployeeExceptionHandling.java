@@ -41,5 +41,14 @@ public class EmployeeExceptionHandling {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String,String>> UserNotFoundException(UserNotFoundException exception){
+        Map<String,String> map = new HashMap<>();
+        map.put("message",exception.getMessage());
+        return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
+    }
+
+
+
 
 }

@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody ForgotPasswordDTO request) {
+    public ResponseEntity<ResponseDTO> forgotPassword(@RequestBody LoginDTO request) {
         return service.forgotPassword(request);
     }
 
